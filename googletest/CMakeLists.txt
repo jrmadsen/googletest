@@ -10,10 +10,16 @@
 
 # When other libraries are using a shared version of runtime libraries,
 # Google Test also has to use one.
+set(_gtest_force_shared_crt_default OFF)
+if(WIN32 AND ((DEFINED BUILD_SHARED_LIBS AND NOT BUILD_SHARED_LIBS) 
+              OR 
+              (DEFINED BUILD_STATIC_LIBS AND BUILD_STATIC_LIBS)))
+  set(_gtest_force_shared_crt_default ON)
+endif()
 option(
   gtest_force_shared_crt
   "Use shared (DLL) run-time lib even when Google Test is built as static lib."
-  OFF)
+  ${_gtest_force_shared_crt_default})
 
 option(gtest_build_tests "Build all of gtest's own tests." OFF)
 
